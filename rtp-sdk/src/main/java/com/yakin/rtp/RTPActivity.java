@@ -14,9 +14,11 @@ import com.yakin.rtp.processor.AudioProcessor;
 
 public class RTPActivity extends Activity {
 
+    private final static String REQUEST_CODE = "permission_code";
     private final static String REQUEST_PERMISSION = "permission";
 
-    private final static int PERMISSION = 999;
+    private final static int PERMISSION = 100;
+    private final static int PERMISSIONS = 101;
 
     private static IRTPGrantCallback sCallback;
 
@@ -38,23 +40,46 @@ public class RTPActivity extends Activity {
         }
     };
 
+    private String[] mPermissions;
+    private int mIndex;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        String permission = intent.getStringExtra(REQUEST_PERMISSION);
-        if(!checkPermission(permission)) {
-            requestPermissions(permission);
-        } else if(Manifest.permission.RECORD_AUDIO.equals(permission)) {
-            AudioProcessor.checkPermission(InnerCallback);
+        int code = intent.getIntExtra(REQUEST_CODE, -1);
+        if(code == PERMISSION) {
+            String permission = intent.getStringExtra(REQUEST_PERMISSION);
+            if (!checkPermission(permission)) {
+                requestPermission(PERMISSION, permission);
+            } else if (Manifest.permission.RECORD_AUDIO.equals(permission)) {
+                AudioProcessor.checkPermission(InnerCallback);
+            } else {
+                InnerCallback.onPermissionGranted();
+            }
+            return;
+        } else if(code == PERMISSIONS) {
+            mPermissions = intent.getStringArrayExtra(REQUEST_PERMISSION);
+            loopCheckPermissions();
+            return;
+        }
+        finish();
+    }
+
+    private void loopCheckPermissions() {
+        if(mPermissions == null || mIndex >= mPermissions.length) {
+            finish();
+        } else if (!checkPermission(mPermissions[mIndex])) {
+            requestPermission(PERMISSIONS, mPermissions[mIndex++]);
         } else {
-            InnerCallback.onPermissionGranted();
+            mIndex ++;
+            loopCheckPermissions();
         }
     }
 
-    private void requestPermissions(String permission) {
-        ActivityCompat.requestPermissions(this,new String[]{ permission }, PERMISSION);
+    private void requestPermission(int code, String permission) {
+        ActivityCompat.requestPermissions(this,new String[]{ permission }, code);
     }
 
     private boolean checkPermission(String permission) {
@@ -73,6 +98,8 @@ public class RTPActivity extends Activity {
             } else {
                 InnerCallback.onPermissionGranted();
             }
+        } else if(requestCode == PERMISSIONS) {
+            loopCheckPermissions();
         }
     }
 
@@ -86,6 +113,14 @@ public class RTPActivity extends Activity {
         sCallback = callback;
         Intent intent = new Intent(context, RTPActivity.class);
         intent.putExtra(REQUEST_PERMISSION, permission);
+        intent.putExtra(REQUEST_CODE, PERMISSION);
+        context.startActivity(intent);
+    }
+
+    static void startActivity(Context context, String[] permissions) {
+        Intent intent = new Intent(context, RTPActivity.class);
+        intent.putExtra(REQUEST_PERMISSION, permissions);
+        intent.putExtra(REQUEST_CODE, PERMISSIONS);
         context.startActivity(intent);
     }
 }

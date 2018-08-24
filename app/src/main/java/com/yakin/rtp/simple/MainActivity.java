@@ -21,6 +21,19 @@ public class MainActivity extends AppCompatActivity {
 
         mResultView = (TextView) findViewById(R.id.result);
 
+        findViewById(R.id.group).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] permissions = new String[]{Manifest.permission.INTERNET,
+                        Manifest.permission.CHANGE_WIFI_STATE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.CAMERA};
+                RTPManager.requestPermissions(MainActivity.this, permissions);
+            }
+        });
+
         findViewById(R.id.internet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
