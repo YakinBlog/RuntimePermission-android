@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.internet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RTPManager.requestPermissions(MainActivity.this, Manifest.permission.INTERNET, new IRTPGrantCallback() {
+                RTPManager.requestPermission(MainActivity.this, Manifest.permission.INTERNET, new IRTPGrantCallback() {
 
                     @Override
                     public void onPermissionGranted() {
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RTPManager.requestPermissions(MainActivity.this, Manifest.permission.CHANGE_WIFI_STATE, new IRTPGrantCallback() {
+                RTPManager.requestPermission(MainActivity.this, Manifest.permission.CHANGE_WIFI_STATE, new IRTPGrantCallback() {
 
                     @Override
                     public void onPermissionGranted() {
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.file).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RTPManager.requestPermissions(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE, new IRTPGrantCallback() {
+                RTPManager.requestPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE, new IRTPGrantCallback() {
 
                     @Override
                     public void onPermissionGranted() {
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.phone).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RTPManager.requestPermissions(MainActivity.this, Manifest.permission.READ_PHONE_STATE, new IRTPGrantCallback() {
+                RTPManager.requestPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE, new IRTPGrantCallback() {
 
                     @Override
                     public void onPermissionGranted() {
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.record).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RTPManager.requestPermissions(MainActivity.this, Manifest.permission.RECORD_AUDIO, new IRTPGrantCallback() {
+                RTPManager.requestPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO, new IRTPGrantCallback() {
 
                     @Override
                     public void onPermissionGranted() {
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.camera).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RTPManager.requestPermissions(MainActivity.this, Manifest.permission.CAMERA, new IRTPGrantCallback() {
+                RTPManager.requestPermission(MainActivity.this, Manifest.permission.CAMERA, new IRTPGrantCallback() {
 
                     @Override
                     public void onPermissionGranted() {
