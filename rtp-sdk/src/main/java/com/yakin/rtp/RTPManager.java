@@ -8,7 +8,7 @@ public class RTPManager {
         RTPActivity.startActivity(context, permissions);
     }
 
-    public static void requestPermissions(Context context, String permission, IRTPGrantCallback callback) {
+    public static void requestPermission(Context context, String permission, IRTPGrantCallback callback) {
         RTPActivity.startActivity(context, permission, callback);
     }
 }
