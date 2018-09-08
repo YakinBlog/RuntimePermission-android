@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -49,9 +50,10 @@ public class RTPActivity extends Activity {
 
         Intent intent = getIntent();
         int code = intent.getIntExtra(REQUEST_CODE, -1);
+        boolean needRTP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
         if(code == PERMISSION) {
             String permission = intent.getStringExtra(REQUEST_PERMISSION);
-            if (!checkPermission(permission)) {
+            if (needRTP && !checkPermission(permission)) {
                 requestPermission(PERMISSION, permission);
             } else if (Manifest.permission.RECORD_AUDIO.equals(permission)) {
                 AudioProcessor.checkPermission(InnerCallback);
@@ -59,7 +61,7 @@ public class RTPActivity extends Activity {
                 InnerCallback.onPermissionGranted();
             }
             return;
-        } else if(code == PERMISSIONS) {
+        } else if(needRTP && code == PERMISSIONS) {
             mPermissions = intent.getStringArrayExtra(REQUEST_PERMISSION);
             loopCheckPermissions();
             return;

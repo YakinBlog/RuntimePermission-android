@@ -62,6 +62,23 @@
             android:layout_weight="1"
             android:text="摄像头权限"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/install"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="安装权限"/>
+        <Button
+            android:id="@+id/uninstall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="卸载权限"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/result"
         android:layout_width="wrap_content"

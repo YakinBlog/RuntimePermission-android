@@ -29,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_PHONE_STATE,
                         Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.CAMERA};
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.REQUEST_INSTALL_PACKAGES,
+                        Manifest.permission.REQUEST_DELETE_PACKAGES};
                 RTPManager.requestPermissions(MainActivity.this, permissions);
             }
         });
@@ -149,6 +151,55 @@ public class MainActivity extends AppCompatActivity {
                     public void onPermissionDenied() {
                         Log.d("--RTP--", "onPermissionDenied");
                         mResultView.setText("CAMERA:onPermissionDenied");
+                    }
+                });
+            }
+        });
+
+        findViewById(R.id.install).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                File apkFile = new File("/sdcard/app-debug.apk");
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
+//                startActivity(intent);
+                RTPManager.requestPermission(MainActivity.this, Manifest.permission.REQUEST_INSTALL_PACKAGES, new IRTPGrantCallback() {
+
+                    @Override
+                    public void onPermissionGranted() {
+                        Log.d("--RTP--", "onPermissionGranted");
+                        mResultView.setText("INSTALL_PACKAGES:onPermissionGranted");
+                    }
+
+                    @Override
+                    public void onPermissionDenied() {
+                        Log.d("--RTP--", "onPermissionDenied");
+                        mResultView.setText("INSTALL_PACKAGES:onPermissionDenied");
+                    }
+                });
+            }
+        });
+
+        findViewById(R.id.uninstall).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Uri uri = Uri.fromParts("package", "com.yakin.rtp.simple", null);
+//                Intent intent = new Intent(Intent.ACTION_DELETE, uri);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
+                RTPManager.requestPermission(MainActivity.this, Manifest.permission.REQUEST_DELETE_PACKAGES, new IRTPGrantCallback() {
+
+                    @Override
+                    public void onPermissionGranted() {
+                        Log.d("--RTP--", "onPermissionGranted");
+                        mResultView.setText("DELETE_PACKAGES:onPermissionGranted");
+                    }
+
+                    @Override
+                    public void onPermissionDenied() {
+                        Log.d("--RTP--", "onPermissionDenied");
+                        mResultView.setText("DELETE_PACKAGES:onPermissionDenied");
                     }
                 });
             }
