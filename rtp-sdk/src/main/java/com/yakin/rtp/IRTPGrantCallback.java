@@ -2,6 +2,6 @@ package com.yakin.rtp;
 
 public interface IRTPGrantCallback {
 
-    void onPermissionGranted();
-    void onPermissionDenied();
+    void onPermissionGranted(String permission);
+    void onPermissionDenied(String permission);
 }

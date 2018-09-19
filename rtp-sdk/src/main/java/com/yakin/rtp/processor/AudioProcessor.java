@@ -1,5 +1,6 @@
 package com.yakin.rtp.processor;
 
+import android.Manifest;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
@@ -36,6 +37,7 @@ public class AudioProcessor {
                     Log.e("--RTP--", "AudioRecord start failed", e);
                 }
                 if(audioRecord.getRecordingState() != AudioRecord.RECORDSTATE_RECORDING) {
+                    audioRecord.release();
                     callback(false, callback);
                     return;
                 }
@@ -51,9 +53,9 @@ public class AudioProcessor {
             public void run() {
                 if(callback != null) {
                     if(granted) {
-                        callback.onPermissionGranted();
+                        callback.onPermissionGranted(Manifest.permission.RECORD_AUDIO);
                     } else {
-                        callback.onPermissionDenied();
+                        callback.onPermissionDenied(Manifest.permission.RECORD_AUDIO);
                     }
                 }
             }
