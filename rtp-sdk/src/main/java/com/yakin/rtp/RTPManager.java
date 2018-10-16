@@ -29,6 +29,10 @@ public class RTPManager {
         requestPermissions(context, new String[]{ permission }, handler);
     }
 
+    public void requestPermissions(Activity context, String[] permissions) {
+        requestPermissions(context, permissions, null);
+    }
+
     public void requestPermissions(Activity context, String[] permissions, IRTPGrantHandler handler) {
         int requestId = RTPUtil.generateID();
         IRTPInterceptor interceptor = new RTPInterceptor(context, requestId, permissions);
