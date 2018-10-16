@@ -9,20 +9,21 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.yakin.rtp.BuildConfig;
-import com.yakin.rtp.IRTPGrantCallback;
+import com.yakin.rtp.IRTPGrantHandler;
 
 import java.util.Arrays;
 
-public class AudioProcessor {
+public class AudioProcessor implements IProcessor {
 
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
-    private static final int MAX_SEQ = 50; // 尝试读取数据的次数
+    private static final int MAX_SEQ = 10; // 尝试读取数据的次数
     private static final int SAMPLE_RATE = 4000; // 使用最小采样
 
     private static int sBufferSize;
 
-    public static void checkPermission(final IRTPGrantCallback callback) {
+    @Override
+    public void runPermission(final IRTPGrantHandler callback) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -47,22 +48,22 @@ public class AudioProcessor {
         }).start();
     }
 
-    private static void callback(final boolean granted, final IRTPGrantCallback callback) {
+    private void callback(final boolean granted, final IRTPGrantHandler callback) {
         sHandler.post(new Runnable() {
             @Override
             public void run() {
                 if(callback != null) {
                     if(granted) {
-                        callback.onPermissionGranted(Manifest.permission.RECORD_AUDIO);
+                        callback.onPermissionGranted();
                     } else {
-                        callback.onPermissionDenied(Manifest.permission.RECORD_AUDIO);
+                        callback.onPermissionDenied(new String[] { Manifest.permission.RECORD_AUDIO });
                     }
                 }
             }
         });
     }
 
-    private static AudioRecord createAudioRecord() {
+    private AudioRecord createAudioRecord() {
         try {
             sBufferSize = AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_8BIT);
             return new AudioRecord(MediaRecorder.AudioSource.MIC, SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_8BIT, sBufferSize);
@@ -72,7 +73,7 @@ public class AudioProcessor {
         return null;
     }
 
-    private static boolean checkStream(AudioRecord audioRecord) {
+    private boolean checkStream(AudioRecord audioRecord) {
         byte[] readBuffer = new byte[sBufferSize];
         int readSize, sequence = 0;
         while(sequence++ < MAX_SEQ) {

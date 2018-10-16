@@ -10,10 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.yakin.rtp.IRTPGrantCallback;
+import com.yakin.rtp.IRTPGrantHandler;
 import com.yakin.rtp.RTPManager;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,23 +35,39 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.CAMERA,
                         Manifest.permission.REQUEST_INSTALL_PACKAGES,
                         Manifest.permission.REQUEST_DELETE_PACKAGES};
-                RTPManager.getInstance().requestPermissions(MainActivity.this, permissions);
+                RTPManager.getInstance().requestPermissions(MainActivity.this, permissions, new IRTPGrantHandler() {
+                    @Override
+                    public void onPermissionGranted() {
+                        Log.d("--RTP--", "onPermissionGranted");
+                        mResultView.setText("ALL:onPermissionGranted");
+                    }
+
+                    @Override
+                    public void onPermissionDenied(String[] permissions) {
+                        Log.d("--RTP--", "onPermissionDenied");
+                        StringBuilder strBuilder = new StringBuilder();
+                        for (int i = 0; i < permissions.length; i++) {
+                            strBuilder.append(permissions[i]).append(",");
+                        }
+                        mResultView.setText("ALL:onPermissionDenied:" + strBuilder.toString());
+                    }
+                });
             }
         });
 
         findViewById(R.id.internet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.INTERNET, new IRTPGrantCallback() {
+                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.INTERNET, new IRTPGrantHandler() {
 
                     @Override
-                    public void onPermissionGranted(String permission) {
+                    public void onPermissionGranted() {
                         Log.d("--RTP--", "onPermissionGranted");
                         mResultView.setText("INTERNET:onPermissionGranted");
                     }
 
                     @Override
-                    public void onPermissionDenied(String permission) {
+                    public void onPermissionDenied(String[] permission) {
                         Log.d("--RTP--", "onPermissionDenied");
                         mResultView.setText("INTERNET:onPermissionDenied");
                     }
@@ -64,16 +78,16 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.CHANGE_WIFI_STATE, new IRTPGrantCallback() {
+                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.CHANGE_WIFI_STATE, new IRTPGrantHandler() {
 
                     @Override
-                    public void onPermissionGranted(String permission) {
+                    public void onPermissionGranted() {
                         Log.d("--RTP--", "onPermissionGranted");
                         mResultView.setText("CHANGE_WIFI_STATE:onPermissionGranted");
                     }
 
                     @Override
-                    public void onPermissionDenied(String permission) {
+                    public void onPermissionDenied(String[] permission) {
                         Log.d("--RTP--", "onPermissionDenied");
                         mResultView.setText("CHANGE_WIFI_STATE:onPermissionDenied");
                     }
@@ -84,16 +98,16 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.file).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE, new IRTPGrantCallback() {
+                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE, new IRTPGrantHandler() {
 
                     @Override
-                    public void onPermissionGranted(String permission) {
+                    public void onPermissionGranted() {
                         Log.d("--RTP--", "onPermissionGranted");
                         mResultView.setText("WRITE_EXTERNAL_STORAGE:onPermissionGranted");
                     }
 
                     @Override
-                    public void onPermissionDenied(String permission) {
+                    public void onPermissionDenied(String[] permission) {
                         Log.d("--RTP--", "onPermissionDenied");
                         mResultView.setText("WRITE_EXTERNAL_STORAGE:onPermissionDenied");
                     }
@@ -104,16 +118,16 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.phone).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE, new IRTPGrantCallback() {
+                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE, new IRTPGrantHandler() {
 
                     @Override
-                    public void onPermissionGranted(String permission) {
+                    public void onPermissionGranted() {
                         Log.d("--RTP--", "onPermissionGranted");
                         mResultView.setText("READ_PHONE_STATE:onPermissionGranted");
                     }
 
                     @Override
-                    public void onPermissionDenied(String permission) {
+                    public void onPermissionDenied(String[] permission) {
                         Log.d("--RTP--", "onPermissionDenied");
                         mResultView.setText("READ_PHONE_STATE:onPermissionDenied");
                     }
@@ -124,16 +138,30 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.record).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO, new IRTPGrantCallback() {
+//                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO, new IRTPGrantHandler() {
+//
+//                    @Override
+//                    public void onPermissionGranted() {
+//                        Log.d("--RTP--", "onPermissionGranted");
+//                        mResultView.setText("RECORD_AUDIO:onPermissionGranted");
+//                    }
+//
+//                    @Override
+//                    public void onPermissionDenied(String[] permission) {
+//                        Log.d("--RTP--", "onPermissionDenied");
+//                        mResultView.setText("RECORD_AUDIO:onPermissionDenied");
+//                    }
+//                });
+                RTPManager.getInstance().runAudioPermission(MainActivity.this, new IRTPGrantHandler() {
 
                     @Override
-                    public void onPermissionGranted(String permission) {
+                    public void onPermissionGranted() {
                         Log.d("--RTP--", "onPermissionGranted");
                         mResultView.setText("RECORD_AUDIO:onPermissionGranted");
                     }
 
                     @Override
-                    public void onPermissionDenied(String permission) {
+                    public void onPermissionDenied(String[] permission) {
                         Log.d("--RTP--", "onPermissionDenied");
                         mResultView.setText("RECORD_AUDIO:onPermissionDenied");
                     }
@@ -144,16 +172,16 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.camera).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.CAMERA, new IRTPGrantCallback() {
+                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.CAMERA, new IRTPGrantHandler() {
 
                     @Override
-                    public void onPermissionGranted(String permission) {
+                    public void onPermissionGranted() {
                         Log.d("--RTP--", "onPermissionGranted");
                         mResultView.setText("CAMERA:onPermissionGranted");
                     }
 
                     @Override
-                    public void onPermissionDenied(String permission) {
+                    public void onPermissionDenied(String[] permission) {
                         Log.d("--RTP--", "onPermissionDenied");
                         mResultView.setText("CAMERA:onPermissionDenied");
                     }
@@ -169,16 +197,16 @@ public class MainActivity extends AppCompatActivity {
 //                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
 //                startActivity(intent);
-                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.REQUEST_INSTALL_PACKAGES, new IRTPGrantCallback() {
+                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.REQUEST_INSTALL_PACKAGES, new IRTPGrantHandler() {
 
                     @Override
-                    public void onPermissionGranted(String permission) {
+                    public void onPermissionGranted() {
                         Log.d("--RTP--", "onPermissionGranted");
                         mResultView.setText("INSTALL_PACKAGES:onPermissionGranted");
                     }
 
                     @Override
-                    public void onPermissionDenied(String permission) {
+                    public void onPermissionDenied(String[] permission) {
                         Log.d("--RTP--", "onPermissionDenied");
                         mResultView.setText("INSTALL_PACKAGES:onPermissionDenied");
                     }
@@ -193,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_DELETE, uri);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-//                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.REQUEST_DELETE_PACKAGES, new IRTPGrantCallback() {
+//                RTPManager.getInstance().requestPermission(MainActivity.this, Manifest.permission.REQUEST_DELETE_PACKAGES, new IRTPGrantHandler() {
 //
 //                    @Override
 //                    public void onPermissionGranted(String permission) {

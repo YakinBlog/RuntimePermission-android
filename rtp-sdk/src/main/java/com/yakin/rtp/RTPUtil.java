@@ -1,20 +1,29 @@
 package com.yakin.rtp;
 
-import android.Manifest;
+import android.os.Build;
 
 public class RTPUtil {
 
-    private static String[] GRANTED = new String[] {
-            Manifest.permission.REQUEST_INSTALL_PACKAGES,
-            Manifest.permission.REQUEST_DELETE_PACKAGES
-    };
+    private static int sID = 0x00000000;
+    static synchronized int generateID() {
+        // synchronized ensure method is thread-safe
+        // requestCode should be less than 0xffff，because of FragmentActivity use the low 16 bits
+        return (sID++) % 0xffff;
+    }
 
-    public static boolean ifGranted(String permission) {
-        for (int i = 0; i < GRANTED.length; i ++) {
-            if(GRANTED[i].equals(permission)) {
-                return true;
+    static int generateStringArrayHashCode(String[] array) {
+        if (array != null && array.length > 0) {
+            int result = 1;
+            int prime = 97;
+            for (int i = 0; i < array.length; i ++) {
+                result = prime * result + ((array[i] == null) ? 0 : array[i].hashCode());
             }
+            return result;
         }
-        return false;
+        return -1;
+    }
+
+    static boolean isGE_M() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 }
