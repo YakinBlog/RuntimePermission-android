@@ -4,6 +4,8 @@ import android.os.Build;
 
 public class RTPUtil {
 
+    public static boolean printLog = false;
+
     private static int sID = 0x00000000;
     static synchronized int generateID() {
         // synchronized ensure method is thread-safe

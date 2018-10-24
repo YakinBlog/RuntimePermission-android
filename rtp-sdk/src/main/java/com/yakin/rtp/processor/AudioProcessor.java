@@ -8,8 +8,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.yakin.rtp.BuildConfig;
 import com.yakin.rtp.IRTPGrantHandler;
+import com.yakin.rtp.RTPUtil;
 
 import java.util.Arrays;
 
@@ -78,7 +78,7 @@ public class AudioProcessor implements IProcessor {
         int readSize, sequence = 0;
         while(sequence++ < MAX_SEQ) {
             readSize = audioRecord.read(readBuffer, 0, sBufferSize);
-            if(BuildConfig.DEBUG) {
+            if(RTPUtil.printLog) {
                 Log.d("--RTP--", "sequence:" + sequence + ", sBufferSize:" + sBufferSize + ", readSize:" + readSize);
             }
             if(readSize > AudioRecord.SUCCESS) {
