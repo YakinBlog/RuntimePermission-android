@@ -21,7 +21,7 @@ apply plugin: 'maven-publish'
 // 发布成功后在jcenter审核期间可以使用临时的私有空间测试下载依赖
 // 在工程build.gradle的allprojects里增加 maven {url 'https://dl.bintray.com/yakin/maven'}
 // jcenter公共空间地址：https://jcenter.bintray.com/
-project.ext.groupId = 'com.yakin.rtp'
+project.ext.groupId = 'com.yakin.support'
 project.ext.artifactId = 'rtp'
 project.ext.version = '0.0.1'
 project.ext.describe = 'Handling runtime permission'
