@@ -1,3 +1,5 @@
 # RuntimePermission-android
 
-权限处理；
+0.0.1：
+
+- 权限处理；
