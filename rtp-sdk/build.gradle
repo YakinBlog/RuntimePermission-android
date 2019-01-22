@@ -25,4 +25,15 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 }
 
-apply from: 'publish_bintray.gradle' // 发布maven
+ext {
+    groupId = 'com.yakin.support'
+    artifactId = 'rtp'
+    versionName = '0.0.1'
+    describe = 'Handling runtime permission'
+
+    licenses = [ 'Apache-2.0' ]
+    websiteUrl = 'http://yakinblog.com'
+    vcsUrl = 'https://github.com/YakinBlog/RuntimePermission-android.git'
+    labels = ['android', 'permission', 'runtime permission']
+}
+apply from: 'https://raw.githubusercontent.com/YakinBlog/buildscript/master/publish_bintray.gradle'
