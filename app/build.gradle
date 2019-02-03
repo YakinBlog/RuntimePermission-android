@@ -23,5 +23,5 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${android_supportLibVersion}"
 
 //    implementation project(':rtp-sdk')
-    implementation "com.yakin.support:rtp:0.0.1"
+    implementation "com.yakin.support:rtp:0.0.2"
 }

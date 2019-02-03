@@ -6,10 +6,9 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.yakin.rtp.IRTPGrantHandler;
-import com.yakin.rtp.RTPUtil;
+import com.yakin.rtp.Permission;
 
 import java.util.Arrays;
 
@@ -35,7 +34,7 @@ public class AudioProcessor implements IProcessor {
                 try {
                     audioRecord.startRecording();
                 } catch (Exception e) {
-                    Log.e("--RTP--", "AudioRecord start failed", e);
+                    e.printStackTrace();
                 }
                 if(audioRecord.getRecordingState() != AudioRecord.RECORDSTATE_RECORDING) {
                     audioRecord.release();
@@ -56,7 +55,8 @@ public class AudioProcessor implements IProcessor {
                     if(granted) {
                         callback.onPermissionGranted();
                     } else {
-                        callback.onPermissionDenied(new String[] { Manifest.permission.RECORD_AUDIO });
+                        Permission permission = new Permission(Manifest.permission.RECORD_AUDIO, false);
+                        callback.onPermissionDenied(new Permission[] { permission });
                     }
                 }
             }
@@ -68,7 +68,7 @@ public class AudioProcessor implements IProcessor {
             sBufferSize = AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_8BIT);
             return new AudioRecord(MediaRecorder.AudioSource.MIC, SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_8BIT, sBufferSize);
         } catch (Exception e) {
-            Log.e("--RTP--", "Failed to create a audio recorder", e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -78,9 +78,6 @@ public class AudioProcessor implements IProcessor {
         int readSize, sequence = 0;
         while(sequence++ < MAX_SEQ) {
             readSize = audioRecord.read(readBuffer, 0, sBufferSize);
-            if(RTPUtil.printLog) {
-                Log.d("--RTP--", "sequence:" + sequence + ", sBufferSize:" + sBufferSize + ", readSize:" + readSize);
-            }
             if(readSize > AudioRecord.SUCCESS) {
                 Arrays.fill(readBuffer, (byte) 0);
                 return true;
