@@ -4,5 +4,5 @@ public interface IRTPGrantHandler {
 
     void onPermissionGranted();
 
-    void onPermissionDenied(String[] permissions);
+    void onPermissionDenied(Permission[] permissions);
 }

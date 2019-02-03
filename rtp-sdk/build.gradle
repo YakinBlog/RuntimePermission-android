@@ -28,7 +28,7 @@ dependencies {
 ext {
     groupId = 'com.yakin.support'
     artifactId = 'rtp'
-    versionName = '0.0.1'
+    versionName = '0.0.2'
     describe = 'Handling runtime permission'
 
     licenses = [ 'Apache-2.0' ]
@@ -37,3 +37,4 @@ ext {
     labels = ['android', 'permission', 'runtime permission']
 }
 apply from: 'https://raw.githubusercontent.com/YakinBlog/buildscript/master/publish_bintray.gradle'
+// ./gradlew bintrayUpload
