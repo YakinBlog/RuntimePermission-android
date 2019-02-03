@@ -12,3 +12,7 @@
 ### 0.0.1：
 
 - 权限处理；
+
+### 0.0.2：
+
+- 采用注入fragment的方式规避onRequestPermissionsResult设置；
