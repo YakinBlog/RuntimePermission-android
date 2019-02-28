@@ -1,13 +1,9 @@
 # RuntimePermission-android
 
-``` xml
-<dependency>
-  <groupId>com.yakin.support</groupId>
-  <artifactId>rtp</artifactId>
-  <version>0.0.1</version>
-  <type>pom</type>
-</dependency>
-```
+|  |  |
+| -------- | ------ |
+| Newest | [![Download](https://api.bintray.com/packages/yakin/maven/com.yakin.support:rtp/images/download.svg)](https://bintray.com/yakin/maven/com.yakin.support:rtp/_latestVersion) |
+| Usage | `'com.yakin.support:rtp:+'` |
 
 ### 0.0.1：
 
