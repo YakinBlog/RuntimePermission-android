@@ -2,39 +2,32 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion android_compileSdkVersion.toInteger()
-    buildToolsVersion android_buildToolsVersion
 
     defaultConfig {
         minSdkVersion android_minSdkVersion.toInteger()
         targetSdkVersion android_compileSdkVersion.toInteger()
 
-        versionCode 1
-        versionName "1.0"
+        consumerProguardFiles 'proguard-rules.pro'
     }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 }
 
+//===============publish==================//
 ext {
     groupId = 'com.yakin.support'
     artifactId = 'rtp'
     versionName = '0.0.2'
-    describe = 'Handling runtime permission'
+    versionDescribe = 'Handling runtime permission version 0.0.2' // 版本描述
 
-    licenses = [ 'Apache-2.0' ]
-    websiteUrl = 'http://yakinblog.com'
-    vcsUrl = 'https://github.com/YakinBlog/RuntimePermission-android.git'
-    labels = ['android', 'permission', 'runtime permission']
+    licenses = [ 'Apache-2.0' ] // 仓库创建时选择的license, 不能随便写
+    websiteUrl = 'http://yakinblog.com' // 项目网址
+    issueUrl = 'https://github.com/YakinBlog/RuntimePermission-android/issues' // issue地址
+    vcsUrl = 'https://github.com/YakinBlog/RuntimePermission-android.git' // 项目仓库地址
+    labels = ['android', 'permission', 'runtime permission'] // 项目标签
+    describe = 'Handling runtime permission' // 项目描述
 }
 apply from: 'https://raw.githubusercontent.com/YakinBlog/buildscript/master/publish_bintray.gradle'
 // ./gradlew bintrayUpload

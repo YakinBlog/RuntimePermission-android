@@ -22,16 +22,17 @@ class RTPHandlerImpl implements IRTPInternalHandler, IRTPGrantHandler {
 
     public RTPHandlerImpl(Activity activity) {
         mFragment = findRTPFragment(activity);
+        mDenyList = new ArrayList<>();
         boolean needNewInstance = mFragment == null;
         if (needNewInstance) {
             mFragment = new RTPFragment();
-            mFragment.setInternalHandler(this);
             FragmentManager fragmentMgr = activity.getFragmentManager();
             fragmentMgr.beginTransaction()
                     .add(mFragment, FRAGMENT_TAG)
                     .commitAllowingStateLoss();
             fragmentMgr.executePendingTransactions();
         }
+        mFragment.setInternalHandler(this);
     }
 
     private RTPFragment findRTPFragment(Activity activity) {
@@ -61,7 +62,6 @@ class RTPHandlerImpl implements IRTPInternalHandler, IRTPGrantHandler {
     @Override
     public void requestPermissions(String[] permissions, IRTPGrantHandler handler) {
         mGrantHandler = handler;
-        mDenyList = new ArrayList<>();
         List<String> unrequestedList = new ArrayList<>();
         for (String permission : permissions) {
             if(isGranted(permission)) {
